@@ -57,7 +57,7 @@
 
     <div class="container">
         <h2>Form Example</h2>
-        <form action="/addBlog" method="post">
+        <form action="/addBlog" method="post" enctype="multipart/form-data" >
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" placeholder="Enter the title"><br>
 
@@ -65,7 +65,7 @@
             <input type="file" id="image" name="image" placeholder="Enter the image URL"><br>
 
             <label for="subtitle">Subtitle:</label>
-            <input type="text" id="subtitle" name="subtitle" placeholder="Enter the subtitle"><br>
+            <input type="text" id="subtitle" name="subTitle" placeholder="Enter the subtitle"><br>
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" placeholder="Enter the description"></textarea><br>
