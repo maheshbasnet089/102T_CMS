@@ -64,20 +64,22 @@
 </head>
 <body>
     <div class="navbar">
-        <a href="#">Home</a>
-        <a href="/addBlog">AddBlog</a>
+        <a href="/">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
     </div>
 
     <div class="container">
-      <% blogs.forEach((blog)=>{ %>
+ 
         <div class="blog-card">
-            <img class="blog-image" src="<%-blog.imageUrl %>" alt="Blog Image" >
-            <div class="blog-title"><%-blog.title %></div>
-            <div class="blog-subtitle"><%- blog.subTitle %></div>
-            <div class="blog-description"><%- blog.description %></div>
-            <a href="/blogs/<%-blog.id %>">See More</a>
+            <img class="blog-image" src="<%-blog[0].imageUrl %>" alt="Blog Image" >
+            <div class="blog-title"><%- blog[0].title %></div>
+            <div class="blog-subtitle"><%- blog[0].subTitle %></div>
+            <div class="blog-description"><%-blog[0].description %></div>
+            <button> <a href="/delete/<%- blog[0].id %>">Delete Me</a> </button>
+          
         </div>
-       <% }) %>
+
 
 
 
