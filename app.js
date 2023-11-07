@@ -5,7 +5,7 @@ const {multer,storage} = require("./middleware/multerConfig.js")
 const upload = multer({storage : storage})
 // const multer = require("./middleware/multerConfig.js").multer
 // const storage = require("./middleware/multerConfig.js").storage
-
+//test
 const app = express()
 // telling nodejs to require and use .env
  require("dotenv").config()
