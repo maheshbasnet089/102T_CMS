@@ -1,3 +1,5 @@
+// jibbrish code wrong code 
+
 const express = require("express")
 const { blogs } = require("./model/index.js")
 // requiring multerConfig
@@ -44,6 +46,7 @@ app.get("/blogs/:id",async (req,res)=>{
 app.get("/delete/:id",async(req,res)=>{
     const id = req.params.id 
     // aako id ko data(row) chae blogs vanney table bata delete garnu paryo 
+  
    await  blogs.destroy({
         where : {
             id : id
