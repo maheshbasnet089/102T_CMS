@@ -6,6 +6,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #444;
+            color: wheat;
         }
 
         .navbar {
@@ -22,6 +24,7 @@
 
         .container {
             margin: 20px;
+            width:50%;
         }
 
         .blog-card {
@@ -60,23 +63,44 @@
             bottom: 0;
             width: 100%;
         }
+        .navbar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
     </style>
 </head>
 <body>
+
     <div class="navbar">
         <a href="/">Home</a>
         <a href="#">About</a>
         <a href="#">Contact</a>
     </div>
+<center>
 
     <div class="container">
- 
+        
         <div class="blog-card">
-            <img class="blog-image" src="<%-blog[0].imageUrl %>" alt="Blog Image" >
+            <img class="blog-image" style="width:400px; height:400px" src="<%-blog[0].imageUrl %>" alt="Blog Image" >
             <div class="blog-title"><%- blog[0].title %></div>
             <div class="blog-subtitle"><%- blog[0].subTitle %></div>
             <div class="blog-description"><%-blog[0].description %></div>
             <button> <a href="/delete/<%- blog[0].id %>">Delete Me</a> </button>
+            <button> <a href="/edit/<%- blog[0].id %>">Edit Me</a> </button>
           
         </div>
 
@@ -90,5 +114,6 @@
     <div class="footer">
         &copy; 2023 102TCMS
     </div>
+</center>
 </body>
 </html>
