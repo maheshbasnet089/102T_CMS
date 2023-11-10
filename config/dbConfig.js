@@ -1,8 +1,8 @@
 module.exports = {
     HOST: "localhost",
-    USER: "dpkailas_test",
-    PASSWORD: "Ultimate@22",
-    DB: "dpkailas_test",
+    USER: "root",
+    PASSWORD: "",
+    DB: "102tpms",
     dialect: "mysql",
     pool: {
       max: 5,
@@ -11,5 +11,3 @@ module.exports = {
       idle: 10000,
     },
   };
-
-  // ncW!Di*!DADo
