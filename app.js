@@ -1,8 +1,6 @@
-// jibbrish code wrong code 
 
 const express = require("express")
-const { blogs, users } = require("./model/index.js")
-const bcrypt = require('bcrypt')
+
 // requiring multerConfig
 const {multer,storage} = require("./middleware/multerConfig.js")
 const upload = multer({storage : storage})
@@ -17,7 +15,8 @@ require("./model/index.js")
 // say nodejs that we are using ejs, set everything
 app.set("view engine","ejs")
 
-const fs = require("fs")
+const { renderEditBlog, editBlog, addBlog, renderaddBlogForm, deleteBlog, singleBlog, allBlogs } = require("./controller/blogController.js")
+const { renderRegisterForm, registerUser, renderLoginForm, loginUser } = require("./controller/authController.js")
 
 
 // telling nodejs to accept the incoming data(parsing data)
@@ -25,166 +24,36 @@ app.use(express.json()) // cT = application/json handle
 app.use(express.urlencoded({extended : true})) // cT = application/x-www-form-urlencoded
 
 
-app.get("/",async(req,res)=>{
-    const allBlogs = await blogs.findAll()
- 
-    res.render("allBlogs.ejs",{blogs : allBlogs})
-})
+app.get("/",allBlogs)
 
 // get single Blog 
-app.get("/blogs/:id",async (req,res)=>{
-    const id = req.params.id 
-    
-    // aako id ko data blogs table bata fetch/find garnu paryo 
-    const blog =  await blogs.findAll({where : {
-        id : id
-     }})
-
-    //  const blog  = await blogs.findByPk(id)
-
-    res.render("singleBlog",{blog})
-})
+app.get("/blogs/:id",singleBlog)
 
 // delete blog
-app.get("/delete/:id",async(req,res)=>{
-    const id = req.params.id 
-    const blog = await blogs.findAll({
-        where : {
-            id : id 
-        }
-    })
-    const fileName = blog[0].imageUrl 
-    const lengthToCut = "http://localhost:3000/".length 
-    const fileNameAfterCut = fileName.slice(lengthToCut)
-    fs.unlink("./uploads/" + fileNameAfterCut,(err)=>{
-        if(err){
-            console.log("error occured",err)
-        }else{
-            console.log("file deleted successfully")
-        }
-    })
-    // aako id ko data(row) chae blogs vanney table bata delete garnu paryo 
-  
-   await  blogs.destroy({
-        where : {
-            id : id
-        }
-    })
-    res.redirect("/")
+app.get("/delete/:id",deleteBlog)
 
-})
-
-app.get("/addBlog",(req,res)=>{
-    res.render("addBlog")
-})
+app.get("/addBlog",renderaddBlogForm)
 
 // api for handling formdata
-app.post("/addBlog",upload.single('image'), async(req,res)=>{
-
-  
-    // const title = req.body.title
-    // const subTitle = req.body.subTitle
-//    ALTERNATIVE 
-    const {title,subTitle,description} = req.body 
-
-  await blogs.create({
-    title , 
-    subTitle  ,
-    description ,
-    imageUrl : process.env.BACKEND_URL +  req.file.filename
-   })
-  res.redirect("/")
-
-})
+app.post("/addBlog",upload.single('image'),addBlog )
 
 // edit blog FORM 
-app.get("/edit/:id",async (req,res)=>{
-    // find the blog with coming id 
-    const id = req.params.id 
-    const blog = await blogs.findAll({
-        where : {
-            id : id
-        }
-    })
-    res.render("editBlog",{blog : blog})
-})
+app.get("/edit/:id",renderEditBlog)
 
 // edit Form bata aako data handle 
-app.post("/edit/:id",upload.single('image'),async (req,res)=>{
-    const id = req.params.id 
-    const {title,subTitle,description} = req.body
-    let fileName 
-    if(req.file){
-        fileName = req.file.filename
-    }
-
-    // fs.unlink("./uploads/test.txt",(err)=>{
-    //     if(err){
-    //         console.log("error occured",err)
-    //     }else{
-    //         console.log("File Delete Successfully")
-    //     }
-    // })
-    // old data 
-    const oldData = await blogs.findAll({
-        where : {
-            id : id
-        }
-    })
-    const oldFileName = oldData[0].imageUrl 
-
-    const lengthToCut = "http://localhost:3000/".length
-    
-    const oldFileNameAfterCut = oldFileName.slice(lengthToCut)
-
-
-    if(fileName){
-        // delete old because naya aairaxa 
-        fs.unlink("./uploads/" + oldFileNameAfterCut,(err)=>{
-            if(err){
-                console.log("error occured",err)
-            }else{
-                console.log("Old File Deleted successfully")
-            }
-        })
-    }
-
-
-    await blogs.update({
-        title  ,
-        subTitle,
-        description  , 
-        imageUrl : fileName  ? process.env.BACKEND_URL + fileName  : oldFileName
-    },{
-        where : {
-            id : id
-        }
-    })
-
-    res.redirect("/blogs/" + id)
-    
-
-})
+app.post("/edit/:id",upload.single('image'),editBlog)
 
 // Register User 
-app.get("/register",(req,res)=>{
-    res.render("register")
-})
+app.get("/register",renderRegisterForm)
 
-app.post("/register",async (req,res)=>{
-   const {username,email,password} = req.body
-   await users.create({
-    email ,
-    username ,
-    password :  bcrypt.hashSync(password,8)
-   })
+app.post("/register",registerUser)
 
-   res.send("User registered successfully")
-
-})
+// login user 
+app.get("/login",renderLoginForm)
+app.post("/login",loginUser)
 
 app.use(express.static("./uploads/"))
-
+app.use(express.static("./public/"))
 const PORT  = process.env.PORT
 
 app.listen(PORT,()=>{

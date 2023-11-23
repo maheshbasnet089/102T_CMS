@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <%- include("./navbar.ejs") %>
+
+    <div class="container">
+        <h2>Login User</h2>
+        <form action="/login" method="post" >
+     
+
+            <label for="email">email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter the email " required><br>
+
+            <label for="password">password:</label>
+            <input type="text" id="password" name="password" placeholder="Enter the password" required><br>
+
+
+
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <div class="footer">
+        &copy; 2023 102TCMS
+    </div>
+</body>
+</html>
