@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "localhost",
+    HOST: "roundhouse.proxy.rlwy.net",
     USER: "root",
-    PASSWORD: "",
-    DB: "102tpms",
+    PASSWORD: "G-Eh11gG6hfgBGbAahbAb6ADBa2b1bC1",
+    DB: "railway",
     dialect: "mysql",
     pool: {
       max: 5,
